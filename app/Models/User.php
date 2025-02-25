@@ -4,7 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\CapabilityEnum;
 use App\Enums\RoleEnum;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -14,7 +18,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasName
 {
     use HasApiTokens;
 
@@ -57,6 +61,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        "full_name"
     ];
 
     /**
@@ -103,8 +108,20 @@ class User extends Authenticatable
         });
     }
 
-    public function isAdmin(){
-        return $this->role->slug === RoleEnum::Admin->value;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        $capability = CapabilityEnum::UseBackoffice;
+        return $this->role->capabilities->where('slug', $capability->value)->isNotEmpty();
+    }
+
+    public function getFilamentName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getFullNameAttribute(): string{
+        return $this->first_name . ' ' . $this->last_name;
     }
 
 }

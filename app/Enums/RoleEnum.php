@@ -24,7 +24,7 @@ enum RoleEnum: string
                 CapabilityEnum::UseBackoffice,
             ],
             self::User => [
-
+                
             ],
             self::Vip => [
                 

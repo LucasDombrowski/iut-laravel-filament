@@ -12,11 +12,4 @@ enum CapabilityEnum: string
             self::UseBackoffice => 'Use Backoffice',
         };
     }
-
-    public function getAllInstances(): array
-    {
-        return [
-            self::UseBackoffice,
-        ];
-    }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId("variant_id")->constrained()->onDelete("cascade");
             $table->string("url");
             $table->string("alt");
+            $table->integer("order")->nullable();
             $table->timestamps();
         });
     }

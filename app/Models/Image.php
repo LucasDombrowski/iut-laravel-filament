@@ -13,11 +13,26 @@ class Image extends Model
     protected $fillable = [
         'variant_id',
         'url',
-        'alt'
+        'alt',
+        "order"
     ];
 
     public function variant()
     {
         return $this->belongsTo(Variant::class);
     }
+
+    //Lors de la création, on modifie la colonne order pour qu'elle s'adapte au nombre d'images associées au variant.
+    //Ceci ne s'applique que si order vaut null.
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($image) {
+            if ($image->order === null) {
+                $image->order = $image->variant->images()->count();
+            }
+        });
+    }
+
 }

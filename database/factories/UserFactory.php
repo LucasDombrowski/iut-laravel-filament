@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
-            'profile_photo_path' => null,
+            'profile_photo_path' => "https://picsum.photos/400/400?random=".fake()->numberBetween(1,1000),
             'current_team_id' => null,
         ];
     }

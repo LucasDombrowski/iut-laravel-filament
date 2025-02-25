@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,5 +22,12 @@ class ProductFactory extends Factory
             'description'=>fake()->paragraph(),
             'slug'=>fake()->slug()
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (\App\Models\Product $product) {
+           $product->categories()->attach(Category::inRandomOrder()->take(3)->get());
+        });
     }
 }

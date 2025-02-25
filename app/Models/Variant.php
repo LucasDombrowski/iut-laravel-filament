@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -50,5 +51,18 @@ class Variant extends Model
 
     public function carts() : BelongsToMany{
         return $this->belongsToMany(Cart::class)->withPivot('quantity');
+    }
+
+    //Le prix est stocké en centimes, donc on le divise par 100 pour l'afficher, et on le multiplie par 100 pour le stocker.
+
+    public function price() : Attribute{
+        return new Attribute(
+            function($value){
+                return $value / 100;
+            },
+            function($value){
+                return $value * 100;
+            }
+        );
     }
 }
