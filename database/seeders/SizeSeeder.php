@@ -18,6 +18,8 @@ class SizeSeeder extends Seeder
             ["label" => "S"],
             ["label" => "M"],
             ["label" => "L"],
+            ["label" => "XL"],
+            ["label" => "XXL"],
         ];
 
         foreach ($sizes as $size) {

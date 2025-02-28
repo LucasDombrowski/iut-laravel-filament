@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AddToCartController;
+use App\Http\Controllers\ShowCartController;
+use App\Http\Controllers\ShowProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,4 +24,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::post('/cart/{variant}',AddToCartController::class)->name("cart.add");
+    Route::get('/cart',ShowCartController::class)->name("cart.index");
 });
+
+Route::get("/products/{slug}", ShowProductController::class)->name("product.show");
