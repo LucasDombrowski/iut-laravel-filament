@@ -26,12 +26,16 @@ export interface ProductSize {
 export interface ProductCategory {
     id: number;
     name: string;
+    thumbnail: string;
+    description: string;
     slug: string;
+    children: ProductCategory[];
 }
 
 export interface Product {
     id: number;
     name: string;
+    slug: string;
     description: string;
     categories: ProductCategory[];
     variants: ProductVariant[];
@@ -41,4 +45,11 @@ export interface ProductImage {
     id: number;
     url: string;
     alt: string;
+}
+
+export interface ProductFilters {
+    colors: number[];
+    sizes: number[];
+    search: string;
+    page: number;
 }

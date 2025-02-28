@@ -27,7 +27,6 @@ const animateSizes = () => {
   );
 };
 
-console.log(props.sizes);
 </script>
 
 <template>

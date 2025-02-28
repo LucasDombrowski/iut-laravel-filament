@@ -18,7 +18,7 @@ class ShowCartController extends Controller
                 "quantity"=>$variant["pivot"]["quantity"],
             ];
         },$cart->variants->load('product', 'color', 'size')->toArray());
-        return inertia("Product/Index", [
+        return inertia("Cart/Index", [
             "cartItems" => $items,
         ]);
         

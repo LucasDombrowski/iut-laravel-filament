@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { gsap } from 'gsap';
 import CartItem from '@/Components/Pages/Cart/CartItem.vue';
 import PromoCodeInput from '@/Components/Pages/Cart/PromoCodeInput.vue';
 import CartSummary from '@/Components/Pages/Cart/CartSummary.vue';
 import EmptyCart from '@/Components/Pages/Cart/EmptyCart.vue';
 import type { CartItem as CartItemType, PromoCode } from '@/libs/types/cart';
+import {router} from "@inertiajs/vue3";
 
 const props = defineProps<{
   cartItems: CartItemType[];
@@ -24,6 +25,7 @@ const updateItemQuantity = (itemId: number, newQuantity: number) => {
 };
 
 const removeItem = (itemId: number) => {
+  router.delete(route('cart.remove', { variant: itemId }));
   cartItems.value = cartItems.value.filter(item => item.variant.id !== itemId);
 };
 
@@ -41,6 +43,24 @@ onMounted(() => {
     });
   }
 });
+
+watch(cartItems,(newValue)=>{
+  const putValues = newValue.map((item)=>{
+    return {
+      id: item.variant.id,
+      quantity: item.quantity
+    }
+  });
+
+  console.log(putValues);
+
+  router.put(route('cart.update'),{
+    items: putValues
+  });
+},{
+  deep: true
+});
+
 </script>
 
 <template>

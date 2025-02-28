@@ -62,13 +62,13 @@ onMounted(() => {
             <p class="text-sm text-gray-600">
               <span class="font-medium text-gray-700">Couleur:</span> 
               <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-                {{ item.variant.color }}
+                {{ item.variant.color.label }}
               </span>
             </p>
             <p class="text-sm text-gray-600">
               <span class="font-medium text-gray-700">Taille:</span>
               <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                {{ item.variant.size }}
+                {{ item.variant.size.label }}
               </span>
             </p>
           </div>
