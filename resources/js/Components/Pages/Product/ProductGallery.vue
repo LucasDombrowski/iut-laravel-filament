@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
+import { ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Thumbs } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
-import gsap from 'gsap';
 
 const props = defineProps<{
   images: string[];
@@ -13,28 +12,12 @@ const props = defineProps<{
 
 const thumbsSwiper = ref(null);
 const mainSwiper = ref(null);
-
-// Animation for image changes
-watch(() => props.images, () => {
-  gsap.fromTo('.swiper-slide-active img', 
-    { opacity: 0, scale: 0.9 },
-    { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }
-  );
-}, { deep: true });
-
-onMounted(() => {
-  // Initial animation for gallery
-  gsap.fromTo('.product-thumbnails', 
-    { y: 20, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.6, delay: 0.3, ease: 'power2.out' }
-  );
-});
 </script>
 
 <template>
   <div class="product-gallery-container">
     <!-- Main Gallery -->
-    <div class="main-gallery mb-4 overflow-hidden rounded-lg bg-gray-100">
+    <div class="main-gallery mb-4 overflow-hidden rounded-lg bg-gray-100 shadow-md">
       <Swiper
         :modules="[Navigation, Thumbs]"
         :thumbs="{ swiper: thumbsSwiper }"
@@ -44,7 +27,7 @@ onMounted(() => {
         @swiper="mainSwiper = $event"
       >
         <SwiperSlide v-for="(image, index) in images" :key="index" class="flex items-center justify-center">
-          <img :src="image" :alt="`Product image ${index + 1}`" class="h-full w-full object-cover" />
+          <img :src="image" :alt="`Product image ${index + 1}`" class="h-full w-full object-cover transition-all duration-300 transform hover:scale-105" />
         </SwiperSlide>
         
         <!-- Fallback if no images -->
@@ -69,8 +52,8 @@ onMounted(() => {
         @swiper="thumbsSwiper = $event"
         class="h-24"
       >
-        <SwiperSlide v-for="(image, index) in images" :key="index" class="cursor-pointer rounded-md overflow-hidden">
-          <img :src="image" :alt="`Thumbnail ${index + 1}`" class="h-full w-full object-cover" />
+        <SwiperSlide v-for="(image, index) in images" :key="index" class="cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-indigo-500">
+          <img :src="image" :alt="`Thumbnail ${index + 1}`" class="h-full w-full object-cover rounded-md shadow-sm border border-gray-200 hover:border-indigo-500" />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -99,10 +82,11 @@ onMounted(() => {
 
 :deep(.swiper-slide) {
   opacity: 0.6;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 :deep(.swiper-slide:hover) {
   opacity: 1;
+  transform: scale(1.05);
 }
 </style>

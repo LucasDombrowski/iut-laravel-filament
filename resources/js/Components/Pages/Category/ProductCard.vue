@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { Product } from '@/libs/types/product';
-import gsap from 'gsap';
 import { Link } from '@inertiajs/vue3';
 
 const props = defineProps<{
@@ -29,11 +28,10 @@ const otherCategories = computed(() => {
     !window.location.href.includes(category.slug)
   );
 });
-
 </script>
 
 <template>
-  <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl">
+  <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl">
     <div class="relative overflow-hidden group">
       <a :href="`/products/${product.slug}`">
         <img 
@@ -44,13 +42,13 @@ const otherCategories = computed(() => {
       </a>
       
       <!-- Color options -->
-      <div class="flex justify-end gap-1 z-10 mt-2 mr-3">
+      <div class="absolute top-3 right-3 flex gap-1">
         <button
           v-for="color in availableColors"
           :key="color.id"
           @click="selectedColorId = color.id"
-          class="w-6 h-6 rounded-full border-2 transition-transform"
-          :class="selectedColorId === color.id ? 'border-white transform scale-125' : 'border-transparent'"
+          class="w-6 h-6 rounded-full border-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          :class="selectedColorId === color.id ? 'border-indigo-600 scale-110' : 'border-transparent'"
           :style="{ backgroundColor: color.hex }"
           :title="color.label"
         ></button>
@@ -59,27 +57,27 @@ const otherCategories = computed(() => {
     
     <div class="p-4">
       <div class="flex justify-between items-start mb-2">
-        <h3 class="font-medium text-gray-800 hover:text-primary-600 transition-colors">
+        <h3 class="font-medium text-gray-800 hover:text-indigo-600 transition-colors">
           <a :href="`/products/${product.slug}`">{{ product.name }}</a>
         </h3>
-        <span class="font-bold text-primary-600">{{ selectedVariant?.price.toFixed(2) }} €</span>
+        <span class="font-bold text-indigo-600">{{ selectedVariant?.price.toFixed(2) }} €</span>
       </div>
       
       <!-- Other categories -->
-      <div v-if="otherCategories.length > 0" class="mb-2 flex flex-wrap gap-1">
+      <div v-if="otherCategories.length > 0" class="mb-2 flex flex-wrap gap-2">
         <Link
           v-for="category in otherCategories" 
           :key="category.id"
           :href="route('categories.show', { slug: category.slug })"
-          class="text-xs px-2 py-1 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+          class="text-xs px-2 py-1 bg-gray-100 rounded-full hover:bg-indigo-100 transition-all duration-300"
         >
           {{ category.name }}
-      </Link>
+        </Link>
       </div>
       
       <!-- Available sizes -->
       <div class="mt-3">
-        <div class="text-xs text-gray-500 mb-1">Tailles disponibles:</div>
+        <div class="text-xs text-gray-500 mb-1">Tailles disponibles :</div>
         <div class="flex flex-wrap gap-1">
           <span 
             v-for="size in Array.from(

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { ProductSize } from '@/libs/types/product';
-import gsap from 'gsap';
-import { onMounted, watch } from 'vue';
 
 const props = defineProps<{
   sizes: ProductSize[];
@@ -11,22 +9,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'select', sizeId: number): void;
 }>();
-
-onMounted(() => {
-  animateSizes();
-});
-
-watch(() => props.sizes, () => {
-  animateSizes();
-}, { deep: true });
-
-const animateSizes = () => {
-  gsap.fromTo('.size-option', 
-    { y: 10, opacity: 0 },
-    { y: 0, opacity: 1, stagger: 0.1, duration: 0.4, ease: 'power2.out' }
-  );
-};
-
 </script>
 
 <template>
@@ -35,11 +17,11 @@ const animateSizes = () => {
       v-for="size in sizes" 
       :key="size.id"
       @click="emit('select', size.id)"
-      class="size-option group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase focus:outline-none"
+      class="group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500"
       :class="[
         selectedSizeId === size.id 
-          ? 'border-indigo-600 bg-indigo-600 text-white' 
-          : 'border-gray-300 bg-white text-gray-900 hover:bg-gray-50'
+          ? 'border-indigo-600 bg-indigo-600 text-white shadow-lg'
+          : 'border-gray-300 bg-white text-gray-900 hover:bg-indigo-50 hover:shadow-md hover:scale-105'
       ]"
     >
       {{ size.label }}

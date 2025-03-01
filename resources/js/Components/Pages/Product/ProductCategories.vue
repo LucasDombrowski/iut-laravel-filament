@@ -1,36 +1,24 @@
 <script setup lang="ts">
 import { ProductCategory } from '@/libs/types/product';
 import { Link } from '@inertiajs/vue3';
-import gsap from 'gsap';
-import { onMounted } from 'vue';
 
 const props = defineProps<{
   categories: ProductCategory[];
 }>();
-
-onMounted(() => {
-  gsap.from('.category-link', {
-    y: 10,
-    opacity: 0,
-    stagger: 0.1,
-    duration: 0.5,
-    ease: 'power2.out'
-  });
-});
 </script>
 
 <template>
   <div class="border-t border-gray-200 pt-6">
-    <h3 class="text-sm font-medium text-gray-900 mb-3">Catégories</h3>
+    <h3 class="text-sm font-semibold text-indigo-900 mb-3">Catégories</h3>
     <div class="flex flex-wrap gap-2">
       <Link
         v-for="category in categories" 
         :key="category.id"
         :href="route('categories.show', { slug: category.slug })"
-        class="category-link inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-800 hover:bg-gray-200 transition-colors"
+        class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-800 hover:bg-indigo-100 hover:text-indigo-900 transition-all duration-300 shadow-sm"
       >
         {{ category.name }}
-    </Link>
+      </Link>
     </div>
   </div>
 </template>

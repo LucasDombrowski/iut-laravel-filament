@@ -33,7 +33,7 @@ const increment = () => {
     <button 
       type="button" 
       @click="decrement"
-      class="w-10 h-10 rounded-l-md border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 focus:outline-none"
+      class="w-10 h-10 rounded-l-md border border-gray-300 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
       :disabled="quantity <= 1"
     >
       <span class="sr-only">Réduire la quantité</span>
@@ -47,13 +47,13 @@ const increment = () => {
       v-model="quantity"
       min="1"
       :max="max"
-      class="w-16 border-t border-b border-gray-300 text-center text-gray-900 [-moz-appearance:_textfield] [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
+      class="w-16 border-t border-b border-gray-300 text-center text-gray-900 font-medium bg-white focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
     />
     
     <button 
       type="button" 
       @click="increment"
-      class="w-10 h-10 rounded-r-md border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 focus:outline-none"
+      class="w-10 h-10 rounded-r-md border border-gray-300 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
       :disabled="quantity >= max"
     >
       <span class="sr-only">Augmenter la quantité</span>
