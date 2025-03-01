@@ -23,7 +23,8 @@ class ShowUserController extends Controller
                     "code"=>$case->value,
                     "name"=>$case->label()
                 ];
-            },CountryCodeEnum::cases())
+            },CountryCodeEnum::cases()),
+            "startSlide"=>$request->query("tab") === "orders" ? 1 : 0,
         ]);
     }
 }

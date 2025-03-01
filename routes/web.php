@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddAddressController;
 use App\Http\Controllers\AddToCartController;
 use App\Http\Controllers\DeleteFromCartController;
 use App\Http\Controllers\ShowCartController;
@@ -34,6 +35,7 @@ Route::middleware([
     Route::put('/cart',UpdateCartController::class)->name("cart.update");
     Route::delete('/cart/{variant}',DeleteFromCartController::class)->name("cart.remove");
     Route::get('/account',ShowUserController::class)->name("account.show");
+    Route::post('/addresses',AddAddressController::class)->name("addresses.add");
 });
 
 Route::get("/products/{slug}", ShowProductController::class)->name("products.show");

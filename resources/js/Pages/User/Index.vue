@@ -11,11 +11,13 @@ import { Order } from '@/libs/types/order';
 import AddressList from '@/Components/Pages/User/AddressList.vue';
 import OrderList from '@/Components/Pages/User/OrderList.vue';
 import AddressForm from '@/Components/Pages/User/AddressForm.vue';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps<{
   addresses: Address[];
   orders: Order[];
   countries: { code: string; name: string }[];
+  startSlide?: number;
 }>();
 
 const emit = defineEmits(['add-address', 'edit-address', 'delete-address']);
@@ -33,11 +35,12 @@ const handleSlideChange = (swiper: any) => {
 };
 
 const handleAddAddress = (address: Omit<Address, 'id' | 'user_id'>) => {
-  emit('add-address', address);
+    console.log(address);
+    router.post(route('addresses.add'), address);
 };
 
 const handleEditAddress = (address: Address) => {
-  emit('edit-address', address);
+
 };
 
 const handleDeleteAddress = (addressId: number) => {
@@ -52,9 +55,7 @@ const handleTriggerAddAddressForm = () => {
     editingAddress.value = null;
 };
 
-onMounted(() => {
-  // Any initialization if needed
-});
+
 </script>
 
 <template>
@@ -82,6 +83,7 @@ onMounted(() => {
 
     <Swiper
       :modules="[Navigation, Pagination]"
+      :initial-slide="props.startSlide || 0"
       :slides-per-view="1"
       :space-between="50"
       @swiper="swiperInstance = $event"
@@ -92,8 +94,6 @@ onMounted(() => {
         <AddressList
           :addresses="addresses"
           :countries="countries"
-          @add-address="handleAddAddress"
-          @edit-address="handleEditAddress"
           @delete-address="handleDeleteAddress"
           @trigger-add-address-form="handleTriggerAddAddressForm"
         />
@@ -104,5 +104,5 @@ onMounted(() => {
     </Swiper>
   </div>
   <AddressForm v-if="showAddressForm" :countries="countries" :editing-address="editingAddress"
-        @save="editingAddress ? handleEditAddress : handleAddAddress" @cancel="showAddressForm = false" />
+        @save="handleAddAddress" @cancel="showAddressForm = false" />
 </template>
