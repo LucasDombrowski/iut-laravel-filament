@@ -1,13 +1,17 @@
 <?php
 
 use App\Http\Controllers\AddAddressController;
+use App\Http\Controllers\AddOrderController;
 use App\Http\Controllers\AddToCartController;
+use App\Http\Controllers\DeleteAddressController;
 use App\Http\Controllers\DeleteFromCartController;
 use App\Http\Controllers\ShowCartController;
 use App\Http\Controllers\ShowCategoriesController;
 use App\Http\Controllers\ShowCategoryController;
+use App\Http\Controllers\ShowOrderController;
 use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\ShowUserController;
+use App\Http\Controllers\UpdateAddressController;
 use App\Http\Controllers\UpdateCartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +40,10 @@ Route::middleware([
     Route::delete('/cart/{variant}',DeleteFromCartController::class)->name("cart.remove");
     Route::get('/account',ShowUserController::class)->name("account.show");
     Route::post('/addresses',AddAddressController::class)->name("addresses.add");
+    Route::delete('/addreses/{address}',DeleteAddressController::class)->name("addresses.delete");
+    Route::put('/addresses/{address}',UpdateAddressController::class)->name("addresses.update");
+    Route::get("/checkout",ShowOrderController::class)->name("checkout");
+    Route::post("/checkout",AddOrderController::class)->name("checkout.add");
 });
 
 Route::get("/products/{slug}", ShowProductController::class)->name("products.show");

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ProductCategory } from '@/libs/types/product';
+import { Link } from '@inertiajs/vue3';
 import gsap from 'gsap';
 import { onMounted } from 'vue';
 
@@ -22,14 +23,14 @@ onMounted(() => {
   <div class="border-t border-gray-200 pt-6">
     <h3 class="text-sm font-medium text-gray-900 mb-3">Catégories</h3>
     <div class="flex flex-wrap gap-2">
-      <a 
+      <Link
         v-for="category in categories" 
         :key="category.id"
-        href="#"
+        :href="route('categories.show', { slug: category.slug })"
         class="category-link inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-800 hover:bg-gray-200 transition-colors"
       >
         {{ category.name }}
-      </a>
+    </Link>
     </div>
   </div>
 </template>

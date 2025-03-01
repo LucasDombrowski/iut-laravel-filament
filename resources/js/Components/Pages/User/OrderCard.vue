@@ -21,16 +21,28 @@ const formattedDate = computed(() => {
 const total = computed(()=>{
     return props.order.variants.reduce((acc, variant) => acc + variant.unit_price * variant.quantity, 0);
 })
+
+const discountedTotal = computed(()=>{
+    if(!props.order.discount){
+        return total.value
+    } else if(props.order.discount.type === 'percentage'){
+        return total.value - (total.value * props.order.discount.value / 100)
+    } else {
+        return total.value - props.order.discount.value
+    }
+})
+
 const formattedTotal = computed(() => {
   return new Intl.NumberFormat('fr-FR', {
     style: 'currency',
     currency: 'EUR',
-  }).format(total.value);
+  }).format(discountedTotal.value);
 });
 
 const itemCount = computed(() => {
   return props.order.variants.reduce((acc, item) => acc + item.quantity, 0);
 });
+
 </script>
 
 <template>

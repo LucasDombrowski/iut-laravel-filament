@@ -5,16 +5,19 @@ import CartItem from '@/Components/Pages/Cart/CartItem.vue';
 import PromoCodeInput from '@/Components/Pages/Cart/PromoCodeInput.vue';
 import CartSummary from '@/Components/Pages/Cart/CartSummary.vue';
 import EmptyCart from '@/Components/Pages/Cart/EmptyCart.vue';
-import type { CartItem as CartItemType, PromoCode } from '@/libs/types/cart';
+import type { CartItem as CartItemType } from '@/libs/types/cart';
 import {router} from "@inertiajs/vue3";
+import { Discount } from '@/libs/types/order';
 
 const props = defineProps<{
   cartItems: CartItemType[];
+  cartDiscount: Discount | null;
 }>();
+
 
 const cartItems = ref<CartItemType[]>(props.cartItems);
 
-const appliedPromoCode = ref<PromoCode | null>(null);
+const appliedPromoCode = ref<Discount | null>(props.cartDiscount);
 const pageTitle = ref<HTMLElement | null>(null);
 
 const updateItemQuantity = (itemId: number, newQuantity: number) => {
@@ -29,8 +32,21 @@ const removeItem = (itemId: number) => {
   cartItems.value = cartItems.value.filter(item => item.variant.id !== itemId);
 };
 
-const applyPromoCode = (promo: PromoCode) => {
-  appliedPromoCode.value = promo.isValid ? promo : null;
+const applyPromoCode = (code: string) => {
+  const items = convertCartItems(cartItems.value);
+  router.put(route('cart.update'), {
+    code,
+    items
+  });
+};
+
+const convertCartItems = (items: CartItemType[]) => {
+  return items.map(item => {
+    return {
+      id: item.variant.id,
+      quantity: item.quantity
+    };
+  });
 };
 
 onMounted(() => {
@@ -45,19 +61,19 @@ onMounted(() => {
 });
 
 watch(cartItems,(newValue)=>{
-  const putValues = newValue.map((item)=>{
-    return {
-      id: item.variant.id,
-      quantity: item.quantity
-    }
-  });
-
-  console.log(putValues);
+  const putValues = convertCartItems(newValue);
 
   router.put(route('cart.update'),{
     items: putValues
   });
 },{
+  deep: true
+});
+
+watch(props.cartDiscount, (newDiscount) => {
+  appliedPromoCode.value = newDiscount;
+},{
+  immediate: true,
   deep: true
 });
 
@@ -90,12 +106,12 @@ watch(cartItems,(newValue)=>{
             />
           </div>
           
-          <PromoCodeInput @apply-promo="applyPromoCode" />
+          <PromoCodeInput @apply-promo="applyPromoCode" :base-code="appliedPromoCode ? appliedPromoCode.code : ''" />
         </div>
       </div>
       
       <div>
-        <CartSummary :items="cartItems" :promo-code="appliedPromoCode" />
+        <CartSummary :items="cartItems" :cart-discount="appliedPromoCode" />
       </div>
     </div>
   </div>

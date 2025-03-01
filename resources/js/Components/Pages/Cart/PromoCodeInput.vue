@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { gsap } from 'gsap';
-import type { PromoCode } from '@/libs/types/cart';
 
-const promoCode = ref('');
+const props = defineProps<{
+  baseCode?: string;
+}>();
+const promoCode = ref(props.baseCode || '');
 const promoError = ref('');
 const promoSuccess = ref('');
 const formRef = ref<HTMLElement | null>(null);
 
 const emit = defineEmits<{
-  (e: 'apply-promo', promo: PromoCode): void;
+  (e: 'apply-promo', code: string): void;
 }>();
 
 const validatePromoCode = () => {
@@ -21,29 +23,9 @@ const validatePromoCode = () => {
     promoError.value = 'Veuillez entrer un code promo';
     return;
   }
+
+  emit('apply-promo', promoCode.value);
   
-  // Simulate promo code validation
-  // In a real app, this would be an API call
-  if (promoCode.value.toUpperCase() === 'DISCOUNT10') {
-    const validPromo: PromoCode = {
-      code: promoCode.value.toUpperCase(),
-      discount: 10,
-      isValid: true
-    };
-    promoSuccess.value = 'Code promo appliqué : 10% de réduction';
-    emit('apply-promo', validPromo);
-  } else if (promoCode.value.toUpperCase() === 'DISCOUNT20') {
-    const validPromo: PromoCode = {
-      code: promoCode.value.toUpperCase(),
-      discount: 20,
-      isValid: true
-    };
-    promoSuccess.value = 'Code promo appliqué : 20% de réduction';
-    emit('apply-promo', validPromo);
-  } else {
-    promoError.value = 'Code promo invalide';
-    emit('apply-promo', { code: '', discount: 0, isValid: false });
-  }
 };
 
 onMounted(() => {

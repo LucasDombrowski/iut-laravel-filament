@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Address } from '@/libs/types/address';
 import AddressCard from './AddressCard.vue';
 import AddressForm from './AddressForm.vue';
@@ -9,14 +9,12 @@ const props = defineProps<{
     countries: { code: string; name: string }[];
 }>();
 
-const emit = defineEmits(['add-address', 'edit-address', 'delete-address', 'trigger-add-address-form']);
+const emit = defineEmits(['delete-address', 'trigger-add-address-form','trigger-edit-address-form']);
 
-const showAddressForm = ref(false);
 const editingAddress = ref<Address | null>(null);
 
 const handleEditAddress = (address: Address) => {
     editingAddress.value = address;
-    showAddressForm.value = true;
 };
 
 const handleDeleteAddress = (addressId: number) => {
@@ -26,6 +24,12 @@ const handleDeleteAddress = (addressId: number) => {
 const handleAddAddressClick = () => {
     emit('trigger-add-address-form');
 };
+
+watch(editingAddress, (address) => {
+    if (address) {
+        emit('trigger-edit-address-form', address);
+    }
+});
 </script>
 
 <template>

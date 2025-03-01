@@ -5,8 +5,3 @@ export interface CartItem {
     quantity: number;
 }
   
-  export interface PromoCode {
-    code: string;
-    discount: number; // percentage discount
-    isValid: boolean;
-  }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\CountryCodeEnum;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class ShowUserController extends Controller
@@ -14,7 +15,18 @@ class ShowUserController extends Controller
     {
         $user = $request->user();
         $addresses = $user->addresses;
-        $orders = $user->orders;
+        $orders = array_map(function(array $order){
+            return [
+                ...$order,
+                "variants"=>array_map(function(array $variant){
+                    return [
+                        "variant"=>$variant,
+                        "quantity"=>$variant["pivot"]["quantity"],
+                        "unit_price"=>$variant["pivot"]["unit_price"]
+                    ];
+                },$order["variants"])
+            ];
+        },$user->orders->load('variants.product', 'variants.color', 'variants.size')->toArray());
         return inertia("User/Index", [
             "addresses" => $addresses,
             "orders" => $orders,

@@ -15,6 +15,7 @@ export interface Order{
     updated_at: string;
     variants: OrderItem[];
     discount?: Discount;
+    total_price: number;
 }
 
 export interface OrderItem{
@@ -31,3 +32,14 @@ export interface Discount{
     type: "percentage" | "fixed";
     value: number;
 }
+
+export interface CartItem {
+    variant: ProductVariant;
+    quantity: number;
+  }
+  
+  export interface Cart {
+    items: CartItem[];
+    discount?: Discount;
+  }
+  

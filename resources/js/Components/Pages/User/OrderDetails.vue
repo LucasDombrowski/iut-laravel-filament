@@ -55,15 +55,15 @@ const formattedDiscount = computed(() => {
   }).format(discountAmount.value);
 });
 
-const subtotal = computed(() => {
-  return total.value + discountAmount.value;
+const discountedTotal = computed(() => {  
+  return total.value - discountAmount.value;
 });
 
-const formattedSubtotal = computed(() => {
+const formattedDiscountedTotal = computed(() => {
   return new Intl.NumberFormat('fr-FR', {
     style: 'currency',
     currency: 'EUR',
-  }).format(subtotal.value);
+  }).format(discountedTotal.value);
 });
 </script>
 
@@ -130,7 +130,7 @@ const formattedSubtotal = computed(() => {
         <div class="border-t pt-4">
           <div class="flex justify-between mb-2">
             <span class="text-gray-600">Sous-total</span>
-            <span>{{ formattedSubtotal }}</span>
+            <span>{{ formattedTotal }}</span>
           </div>
           <div v-if="order.discount" class="flex justify-between mb-2 text-green-600">
             <span>Réduction ({{ order.discount.code }})</span>
@@ -138,7 +138,7 @@ const formattedSubtotal = computed(() => {
           </div>
           <div class="flex justify-between font-bold text-lg mt-2">
             <span>Total</span>
-            <span>{{ formattedTotal }}</span>
+            <span>{{ formattedDiscountedTotal }}</span>
           </div>
         </div>
       </div>

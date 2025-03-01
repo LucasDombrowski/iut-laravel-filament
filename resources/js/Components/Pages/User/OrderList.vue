@@ -3,45 +3,20 @@ import { ref } from 'vue';
 import { Order } from '@/libs/types/order';
 import OrderCard from './OrderCard.vue';
 import OrderDetails from './OrderDetails.vue';
+import { getStatusColor } from '@/libs/utils/order';
 
 const props = defineProps<{
   orders: Order[];
 }>();
 
-const selectedOrder = ref<Order | null>(null);
-const showOrderDetails = ref(false);
+const emit = defineEmits<{
+  (e: 'view-details', order: Order): void;
+}>();
 
 const viewOrderDetails = (order: Order) => {
-  selectedOrder.value = order;
-  showOrderDetails.value = true;
+  emit('view-details', order);
 };
 
-const closeOrderDetails = () => {
-  showOrderDetails.value = false;
-  selectedOrder.value = null;
-};
-
-const getStatusColor = (status: string) => {
-  switch (status.toLowerCase()) {
-    case 'pending':
-    case 'en attente':
-      return 'bg-yellow-100 text-yellow-800';
-    case 'processing':
-    case 'en cours':
-      return 'bg-blue-100 text-blue-800';
-    case 'shipped':
-    case 'expédiée':
-      return 'bg-purple-100 text-purple-800';
-    case 'delivered':
-    case 'livrée':
-      return 'bg-green-100 text-green-800';
-    case 'cancelled':
-    case 'annulée':
-      return 'bg-red-100 text-red-800';
-    default:
-      return 'bg-gray-100 text-gray-800';
-  }
-};
 </script>
 
 <template>
@@ -61,12 +36,5 @@ const getStatusColor = (status: string) => {
         @view-details="viewOrderDetails"
       />
     </div>
-
-    <OrderDetails
-      v-if="showOrderDetails && selectedOrder"
-      :order="selectedOrder"
-      :status-color="getStatusColor(selectedOrder.status)"
-      @close="closeOrderDetails"
-    />
   </div>
 </template>

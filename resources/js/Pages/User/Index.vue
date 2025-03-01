@@ -12,6 +12,8 @@ import AddressList from '@/Components/Pages/User/AddressList.vue';
 import OrderList from '@/Components/Pages/User/OrderList.vue';
 import AddressForm from '@/Components/Pages/User/AddressForm.vue';
 import { router } from '@inertiajs/vue3';
+import OrderDetails from '@/Components/Pages/User/OrderDetails.vue';
+import { getStatusColor } from '@/libs/utils/order';
 
 const props = defineProps<{
   addresses: Address[];
@@ -34,27 +36,40 @@ const handleSlideChange = (swiper: any) => {
   activeTab.value = swiper.activeIndex;
 };
 
-const handleAddAddress = (address: Omit<Address, 'id' | 'user_id'>) => {
-    console.log(address);
-    router.post(route('addresses.add'), address);
-};
-
-const handleEditAddress = (address: Address) => {
-
-};
+const handleAddressSave =  (data: Address)=>{
+  showAddressForm.value = false;
+  if(!data.id){
+    router.post(route('addresses.add'),{
+    ...data
+    });
+  } else {
+    router.put(route('addresses.update', { address: data.id }), {
+    ...data
+    });
+  }
+}
 
 const handleDeleteAddress = (addressId: number) => {
-  emit('delete-address', addressId);
+  router.delete(route('addresses.delete', { address: addressId }));
 };
 
 const showAddressForm = ref(false);
 const editingAddress = ref<Address | null>(null);
+const currentOrder = ref<Order | null>(null);
 
 const handleTriggerAddAddressForm = () => {
     showAddressForm.value = true;
     editingAddress.value = null;
 };
 
+const handleTriggerEditAddressForm = (address: Address) => {
+    showAddressForm.value = true;
+    editingAddress.value = address;
+};
+
+const closeOrderDetails = () => {
+  currentOrder.value = null;
+};
 
 </script>
 
@@ -96,13 +111,20 @@ const handleTriggerAddAddressForm = () => {
           :countries="countries"
           @delete-address="handleDeleteAddress"
           @trigger-add-address-form="handleTriggerAddAddressForm"
+          @trigger-edit-address-form="handleTriggerEditAddressForm"
         />
       </SwiperSlide>
       <SwiperSlide>
-        <OrderList :orders="orders" />
+        <OrderList :orders="orders" @view-details="(order)=>currentOrder = order"/>
       </SwiperSlide>
     </Swiper>
   </div>
   <AddressForm v-if="showAddressForm" :countries="countries" :editing-address="editingAddress"
-        @save="handleAddAddress" @cancel="showAddressForm = false" />
+        @save="handleAddressSave" @cancel="showAddressForm = false" />
+  <OrderDetails
+      v-else-if="currentOrder"
+      :order="currentOrder"
+      :status-color="getStatusColor(currentOrder.status)"
+      @close="closeOrderDetails"
+    />
 </template>

@@ -16,7 +16,6 @@ class AddAddressController extends Controller
             "number" => "required",
             "street" => "required",
             "city" => "required",
-            "postcode" => "required",
             "complement" => "sometimes",
             "zip_code" => "required",
             "country_code" => "required|in:".implode(",",array_map(function($case){
@@ -28,6 +27,6 @@ class AddAddressController extends Controller
 
         $user->addresses()->create($request->all());
 
-        return redirect()->route("user.index", ["tab" => "addresses"]);
+        return redirect()->route("account.show", ["tab" => "addresses"]);
     }
 }

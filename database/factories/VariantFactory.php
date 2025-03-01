@@ -18,7 +18,7 @@ class VariantFactory extends Factory
     public function definition(): array
     {
         return [
-            "price"=>fake()->numberBetween(1000,10000),
+            "price"=>fake()->numberBetween(10,300),
             "stock"=>fake()->numberBetween(0,100),
             "thumbnail"=>"https://picsum.photos/1920/1080?random=".fake()->numberBetween(1,1000)
         ];
