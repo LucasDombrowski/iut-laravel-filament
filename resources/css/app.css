@@ -5,3 +5,9 @@
 [x-cloak] {
     display: none;
 }
+
+body, #app{
+    min-height: 100dvh;
+}
+
+
