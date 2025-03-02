@@ -2,7 +2,7 @@
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import { Product } from '@/libs/types/product';
 import ProductCard from '../Category/ProductCard.vue';
 
@@ -13,8 +13,13 @@ const props = defineProps<{ topProducts: Product[] }>();
   <section class="py-10 max-w-7xl mx-auto px-4">
     <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text">Produits les plus vendus</h2>
     <Swiper
-      :modules="[Navigation]"
+      :modules="[Pagination, Navigation]"
       :spaceBetween="20"
+      :pagination="{
+        enabled: true,
+        clickable: true
+      }"
+      :navigation="true"
       :slidesPerView="1"
       :breakpoints="{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }"
       class="w-full !overflow-y-visible !overflow-x-clip"
@@ -25,3 +30,8 @@ const props = defineProps<{ topProducts: Product[] }>();
     </Swiper>
   </section>
 </template>
+<style scoped>
+:deep(.swiper-pagination){
+  translate: 0 calc(100% + 24px) !important;
+}
+</style>

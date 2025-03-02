@@ -134,6 +134,16 @@ const selectAddress = (result: any) => {
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
           </div>
+          <div v-if="showResults && searchResults.length > 0" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+            <div
+              v-for="(result, index) in searchResults"
+              :key="index"
+              @click="selectAddress(result)"
+              class="px-4 py-2 hover:bg-indigo-100 cursor-pointer transition-all"
+            >
+              {{ result.label }}
+            </div>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         // Récupérer les produits les plus vendus en comptant les commandes via leurs variantes
         $most_selled_products = Product::withCount(['variants as orders_count' => function ($query) {
-            $query->withCount('orders');
+            $query->join('order_variant', 'variants.id', '=', 'order_variant.variant_id');
         }])
         ->orderByDesc('orders_count')
         ->take(8)
@@ -32,7 +32,6 @@ class HomeController extends Controller
         // Récupérer une réduction aléatoire
         $random_discount = Discount::inRandomOrder()->where('start_at', '<=', now())->where('end_at', '>=', now())->first();
 
-        // Retourner les données à la vue avec Inertia.js
         return inertia("Home", [
             "categories" => $categories,
             "topProducts" => $most_selled_products,
