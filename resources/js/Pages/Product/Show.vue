@@ -6,7 +6,7 @@ import ProductSizeSelector from '@/Components/Pages/Product/ProductSizeSelector.
 import ProductQuantity from '@/Components/Pages/Product/ProductQuantity.vue';
 import ProductCategories from '@/Components/Pages/Product/ProductCategories.vue';
 import { Product, ProductVariant } from '@/libs/types/product';
-import { router } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 
 const props = defineProps<{ product: Product }>();
 
@@ -87,7 +87,8 @@ const addToCart = () => {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto py-12">
+  <Head :title="product.name" />
+  <div class="max-w-7xl mx-auto py-12 px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Galerie Produit -->
       <div class="product-gallery transition-all duration-300 transform hover:-translate-y-0.5">

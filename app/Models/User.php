@@ -90,7 +90,7 @@ class User extends Authenticatable implements FilamentUser, HasName
     }
 
     public function orders(){
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class)->orderByDesc("created_at");
     }
 
     //On override la méthode create pour ajouter le role_id s'il n'est pas présent.

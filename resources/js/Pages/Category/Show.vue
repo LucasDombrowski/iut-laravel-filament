@@ -6,7 +6,7 @@ import ProductFiltersComponent from '@/Components/Pages/Category/ProductFilters.
 import ProductGrid from '@/Components/Pages/Category/ProductGrid.vue';
 import Pagination from '@/Components/Pages/Category/Pagination.vue';
 import { PaginationMeta } from '@/libs/types/category';
-import { router } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 
 const props = defineProps<{
     category: ProductCategory,
@@ -57,6 +57,7 @@ watch(filters, (newFilters) => {
 </script>
 
 <template>
+  <Head :title="category.name" />
   <div class="min-h-screen bg-gray-50 py-12 lg:py-16 px-4 sm:px-6 lg:px-8 animate-opacity-100">
     <div class="max-w-7xl mx-auto">
       <!-- Loading state -->

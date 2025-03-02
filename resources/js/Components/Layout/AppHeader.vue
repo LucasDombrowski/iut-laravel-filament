@@ -26,7 +26,7 @@ watch(page, () => {
       <div class="flex items-center justify-between">
         <!-- Logo -->
         <div class="flex-shrink-0">
-          <a href="#" class="text-2xl font-bold text-white">ShopVue</a>
+          <Link :href="route('home')" class="text-2xl font-bold text-white">ShopFilament</Link>
         </div>
 
         <!-- Desktop Navigation -->

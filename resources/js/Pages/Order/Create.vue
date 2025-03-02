@@ -6,7 +6,7 @@ import PaymentForm from '@/Components/Pages/Order/PaymentForm.vue';
 import CheckoutStepper from '@/Components/Pages/Order/CheckoutStepper.vue';
 import { Cart } from '@/libs/types/order';
 import { Address } from '@/libs/types/address';
-import { router } from "@inertiajs/vue3";
+import { Head, router } from "@inertiajs/vue3";
 
 const props = defineProps<{
   cart: Cart;
@@ -92,6 +92,7 @@ const canContinue = computed(() => {
 </script>
 
 <template>
+  <Head title="Checkout"/>
   <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">Finaliser votre commande</h1>

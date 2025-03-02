@@ -61,8 +61,8 @@ const submitPayment = () => {
 </script>
 
 <template>
-  <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 transition-all duration-300 hover:shadow-xl">
-    <h2 class="text-xl font-semibold text-gray-800 bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text mb-4">
+  <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 transition-all duration-300 hover:shadow-xl w-full mx-auto">
+    <h2 class="text-xl font-semibold text-gray-800 bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text mb-6 text-center sm:text-left">
       Informations de paiement
     </h2>
 
@@ -78,7 +78,7 @@ const submitPayment = () => {
             @input="cardNumber = formatCardNumber(cardNumber)"
             placeholder="1234 5678 9012 3456"
             maxlength="19"
-            class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+            class="w-full px-3 py-3 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
             :class="errors.cardNumber ? 'border-red-500' : 'border-gray-300'"
           />
         </div>
@@ -93,14 +93,14 @@ const submitPayment = () => {
           id="card_name"
           v-model="cardName"
           placeholder="John Doe"
-          class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+          class="w-full px-3 py-3 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
           :class="errors.cardName ? 'border-red-500' : 'border-gray-300'"
         />
         <p v-if="errors.cardName" class="text-red-500 text-sm mt-1">{{ errors.cardName }}</p>
       </div>
 
       <!-- Date d'expiration & CVV -->
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label for="expiry_date" class="block text-sm font-medium text-gray-700 mb-1">Date d'expiration</label>
           <input
@@ -110,7 +110,7 @@ const submitPayment = () => {
             @input="expiryDate = formatExpiryDate(expiryDate)"
             placeholder="MM/YY"
             maxlength="5"
-            class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+            class="w-full px-3 py-3 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
             :class="errors.expiryDate ? 'border-red-500' : 'border-gray-300'"
           />
           <p v-if="errors.expiryDate" class="text-red-500 text-sm mt-1">{{ errors.expiryDate }}</p>
@@ -124,7 +124,7 @@ const submitPayment = () => {
             v-model="cvv"
             placeholder="123"
             maxlength="4"
-            class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+            class="w-full px-3 py-3 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
             :class="errors.cvv ? 'border-red-500' : 'border-gray-300'"
           />
           <p v-if="errors.cvv" class="text-red-500 text-sm mt-1">{{ errors.cvv }}</p>
@@ -132,10 +132,10 @@ const submitPayment = () => {
       </div>
 
       <!-- Bouton de paiement -->
-      <div class="mt-6">
+      <div class="mt-6 flex justify-center">
         <button
           type="submit"
-          class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 px-4 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300"
+          class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 px-6 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300"
         >
           Payer
         </button>

@@ -57,7 +57,7 @@ class AddOrderController extends Controller
             ]);
         }
 
-        if($cart->discount){
+        if($cart->discount && $cart->discount->min_price <= $order->total_price && $cart->discount->start_at <= now() && $cart->discount->end_at >= now()){
             $order->discount_id = $cart->discount_id;
             $order->save();
         }

@@ -11,7 +11,7 @@ import { Order } from '@/libs/types/order';
 import AddressList from '@/Components/Pages/User/AddressList.vue';
 import OrderList from '@/Components/Pages/User/OrderList.vue';
 import AddressForm from '@/Components/Pages/User/AddressForm.vue';
-import { router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import OrderDetails from '@/Components/Pages/User/OrderDetails.vue';
 import { getStatusColor } from '@/libs/utils/order';
 import { add } from 'date-fns';
@@ -73,6 +73,7 @@ const closeOrderDetails = () => {
 </script>
 
 <template>
+  <Head title="Account" />
   <div class="max-w-6xl mx-auto px-4 py-12">
     <h1 class="text-3xl font-bold text-indigo-800 bg-clip-text mb-6 border-b-4 border-indigo-500 pb-2 w-fit">
       Mon compte
@@ -108,7 +109,7 @@ const closeOrderDetails = () => {
       @slide-change="handleSlideChange"
       class="w-full"
     >
-      <SwiperSlide class="bg-white p-6 rounded-lg transition-all duration-300">
+      <SwiperSlide class="bg-white py-6 px-0 md:px-6 rounded-lg transition-all duration-300">
         <AddressList
           :addresses="addresses"
           :countries="countries"

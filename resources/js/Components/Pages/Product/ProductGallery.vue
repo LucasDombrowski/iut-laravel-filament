@@ -23,7 +23,7 @@ const mainSwiper = ref(null);
         :thumbs="{ swiper: thumbsSwiper }"
         :loop="true"
         :spaceBetween="10"
-        class="h-[500px] w-full"
+        class="h-[300px] md:h-[500px] w-full"
         @swiper="mainSwiper = $event"
       >
         <SwiperSlide v-for="(image, index) in images" :key="index" class="flex items-center justify-center">

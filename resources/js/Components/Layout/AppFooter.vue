@@ -16,7 +16,7 @@ const scrollToTop = () => {
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <!-- Logo et Description -->
         <div class="md:col-span-1">
-          <div class="text-2xl font-bold text-white mb-4">ShopVue</div>
+          <div class="text-2xl font-bold text-white mb-4">ShopFilament</div>
           <p class="text-gray-300 text-sm">
             Votre boutique en ligne pour tous vos besoins. Nous proposons une large gamme de produits de qualité à des prix compétitifs.
           </p>

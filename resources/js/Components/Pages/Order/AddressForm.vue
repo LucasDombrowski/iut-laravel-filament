@@ -85,18 +85,18 @@ const selectAddress = (result: any) => {
 </script>
 
 <template>
-  <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 transition-all duration-300 hover:shadow-xl">
-    <h2 class="text-xl font-semibold text-gray-800 bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text mb-4">
+  <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 transition-all duration-300 hover:shadow-xl w-full max-w-4xl mx-auto">
+    <h2 class="text-xl font-semibold text-gray-800 bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text mb-4 text-center sm:text-left">
       Adresse de livraison
     </h2>
 
     <div v-if="savedAddresses.length > 0" class="mb-6">
-      <div class="flex flex-wrap gap-2 mb-4">
+      <div class="flex flex-wrap gap-2 mb-4 justify-center sm:justify-start">
         <button
           v-for="address in savedAddresses"
           :key="address.id"
           @click="selectSavedAddress(address.id)"
-          class="px-4 py-2 rounded-md border transition-all duration-300 hover:shadow-md"
+          class="px-4 py-2 rounded-md border transition-all duration-300 text-sm sm:text-base hover:shadow-md"
           :class="[
             selectedSavedAddressId === address.id
               ? 'ring-2 ring-indigo-500 border-indigo-500 bg-indigo-50 text-indigo-700'
@@ -107,7 +107,7 @@ const selectAddress = (result: any) => {
         </button>
       </div>
 
-      <div v-if="selectedSavedAddress" class="bg-gray-50 p-4 rounded-lg shadow-inner">
+      <div v-if="selectedSavedAddress" class="bg-gray-50 p-4 rounded-lg shadow-inner text-center sm:text-left">
         <p class="font-medium">{{ selectedSavedAddress.number }} {{ selectedSavedAddress.street }}</p>
         <p v-if="selectedSavedAddress.complement" class="text-gray-600">{{ selectedSavedAddress.complement }}</p>
         <p>{{ selectedSavedAddress.zip_code }} {{ selectedSavedAddress.city }}</p>
@@ -134,19 +134,9 @@ const selectAddress = (result: any) => {
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
           </div>
-          <div v-if="showResults && searchResults.length > 0" class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-            <div
-              v-for="(result, index) in searchResults"
-              :key="index"
-              @click="selectAddress(result)"
-              class="px-4 py-2 hover:bg-indigo-100 cursor-pointer transition-all"
-            >
-              {{ result.label }}
-            </div>
-          </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input v-model="newAddress.number" placeholder="Numéro" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200" required />
           <input v-model="newAddress.street" placeholder="Rue" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200" required />
           <input v-model="newAddress.city" placeholder="Ville" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200" required />
@@ -165,12 +155,3 @@ const selectAddress = (result: any) => {
     </transition>
   </div>
 </template>
-
-<style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.3s ease-in-out;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-</style>

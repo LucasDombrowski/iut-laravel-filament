@@ -14,7 +14,7 @@ defineProps<{
         :alt="category.name"
         class="w-full h-full object-cover transition-transform duration-500 hover:scale-105 hover:-translate-y-1"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-indigo-600 to-blue-500 opacity-80 flex items-end">
+      <div class="absolute inset-0 bg-gradient-to-t from-indigo-600/25 to-blue-500/25 flex items-end">
         <div class="p-6 text-white">
           <h1 class="text-3xl font-bold text-indigo-100 mb-2">{{ category.name }}</h1>
         </div>

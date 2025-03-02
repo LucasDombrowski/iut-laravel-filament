@@ -10,10 +10,8 @@ const props = defineProps<{
 
 const emit = defineEmits(['delete-address', 'trigger-add-address-form', 'trigger-edit-address-form']);
 
-const editingAddress = ref<Address | null>(null);
-
 const handleEditAddress = (address: Address) => {
-    editingAddress.value = address;
+    emit('trigger-edit-address-form', address);
 };
 
 const handleDeleteAddress = (addressId: number) => {
@@ -23,17 +21,11 @@ const handleDeleteAddress = (addressId: number) => {
 const handleAddAddressClick = () => {
     emit('trigger-add-address-form');
 };
-
-watch(editingAddress, (address) => {
-    if (address) {
-        emit('trigger-edit-address-form', address);
-    }
-});
 </script>
 
 <template>
     <div class="w-full opacity-0 animate-fadeIn">
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
             <h2 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text">
                 Mes adresses
             </h2>

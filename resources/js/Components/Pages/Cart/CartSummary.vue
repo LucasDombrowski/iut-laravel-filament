@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from 'vue';
-import { gsap } from 'gsap';
 import type { CartItem } from '@/libs/types/cart';
 import { Discount } from '@/libs/types/order';
 import { Link } from '@inertiajs/vue3';
@@ -39,29 +38,6 @@ const formatPrice = (price: number) => {
   }).format(price);
 };
 
-onMounted(() => {
-  if (summaryRef.value) {
-    gsap.from(summaryRef.value, {
-      opacity: 0,
-      y: 30,
-      duration: 0.6,
-      delay: 0.2,
-      ease: 'power3.out'
-    });
-  }
-});
-
-watch(total, (newTotal) => {
-  if (totalRef.value) {
-    gsap.to(totalRef.value, {
-      scale: 1.05,
-      duration: 0.2,
-      yoyo: true,
-      repeat: 1,
-      ease: 'power1.inOut'
-    });
-  }
-});
 </script>
 
 <template>

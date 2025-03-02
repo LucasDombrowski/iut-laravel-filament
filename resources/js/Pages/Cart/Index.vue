@@ -6,7 +6,7 @@ import PromoCodeInput from '@/Components/Pages/Cart/PromoCodeInput.vue';
 import CartSummary from '@/Components/Pages/Cart/CartSummary.vue';
 import EmptyCart from '@/Components/Pages/Cart/EmptyCart.vue';
 import type { CartItem as CartItemType } from '@/libs/types/cart';
-import {router} from "@inertiajs/vue3";
+import {Head, router} from "@inertiajs/vue3";
 import { Discount } from '@/libs/types/order';
 
 const props = defineProps<{
@@ -72,16 +72,10 @@ watch(cartItems,(newValue)=>{
   deep: true
 });
 
-watch(props.cartDiscount, (newDiscount) => {
-  appliedPromoCode.value = newDiscount;
-},{
-  immediate: true,
-  deep: true
-});
-
 </script>
 
 <template>
+  <Head title="Cart"/>
   <div class="container mx-auto px-4 py-12">
     <h1 ref="pageTitle" class="text-3xl font-bold mb-10 text-center text-indigo-800">
       <span class="inline-block border-b-4 border-indigo-500 pb-2">Votre Panier</span>

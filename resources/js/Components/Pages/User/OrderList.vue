@@ -2,6 +2,7 @@
 import { Order } from '@/libs/types/order';
 import OrderCard from './OrderCard.vue';
 import { getStatusColor } from '@/libs/utils/order';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps<{
   orders: Order[];
@@ -24,12 +25,13 @@ const viewOrderDetails = (order: Order) => {
 
     <div v-if="orders.length === 0" class="text-center py-10">
       <p class="text-gray-600 text-lg">Vous n'avez pas encore passé de commande.</p>
-      <button 
+      <Link
+        :href="route('categories.index')"
         class="mt-4 px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-md hover:scale-105 hover:shadow-lg 
         transition-all duration-300 focus:ring-2 focus:ring-indigo-500"
       >
         Découvrir nos produits
-      </button>
+      </Link>
     </div>
 
     <div v-else class="space-y-4 mt-4">
