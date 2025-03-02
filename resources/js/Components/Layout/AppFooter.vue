@@ -52,7 +52,7 @@ const scrollToTop = () => {
               <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-              <span>contact@shopvue.com</span>
+              <span>contact@shopfilament.com</span>
             </li>
           </ul>
         </div>
@@ -75,7 +75,7 @@ const scrollToTop = () => {
 
       <!-- Footer Bottom -->
       <div class="mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-300 text-sm">© 2025 ShopVue. Tous droits réservés.</p>
+        <p class="text-gray-300 text-sm">© 2025 ShopFilament. Tous droits réservés.</p>
         <button @click="scrollToTop"
           class="mt-4 md:mt-0 bg-indigo-600 text-white p-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
