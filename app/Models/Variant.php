@@ -65,4 +65,11 @@ class Variant extends Model
             }
         );
     }
+
+    public function thumbnail() : Attribute{
+        return new Attribute(
+            fn($value) => str_starts_with($value, 'http') ? $value : asset('storage/'.$value),
+            fn($value) => $value
+        );
+    }
 }

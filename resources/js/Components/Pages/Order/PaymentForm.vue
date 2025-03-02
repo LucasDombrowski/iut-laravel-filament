@@ -135,7 +135,7 @@ const submitPayment = () => {
       <div class="mt-6 flex justify-center">
         <button
           type="submit"
-          class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 px-6 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300"
+          class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 px-6 rounded-md hover:shadow-md hover:from-indigo-700 hover:to-blue-600 transition-all duration-300"
         >
           Payer
         </button>

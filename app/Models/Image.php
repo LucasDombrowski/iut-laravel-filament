@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,13 @@ class Image extends Model
         'alt',
         "order"
     ];
+
+    public function url() : Attribute{
+        return new Attribute(
+            fn($value) => str_starts_with($value, 'http') ? $value : asset('storage/'.$value),
+            fn($value) => $value
+        );
+    }
 
     public function variant()
     {

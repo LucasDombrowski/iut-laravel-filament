@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\CapabilityEnum;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -13,7 +14,7 @@ class AddressPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->role->capabilities->where('slug', CapabilityEnum::UseBackoffice)->isNotEmpty();
     }
 
     /**
@@ -29,7 +30,7 @@ class AddressPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->role->capabilities->where('slug', CapabilityEnum::UseBackoffice)->isNotEmpty();
     }
 
     /**
@@ -37,7 +38,7 @@ class AddressPolicy
      */
     public function update(User $user, Address $address): bool
     {
-        return $user->id === $address->user_id;
+        return $user->id === $address->user_id ||  $user->role->capabilities->where('slug', CapabilityEnum::UseBackoffice)->isNotEmpty();;
     }
 
     /**
@@ -45,7 +46,7 @@ class AddressPolicy
      */
     public function delete(User $user, Address $address): bool
     {
-        return $user->id === $address->user_id;
+        return $user->id === $address->user_id ||  $user->role->capabilities->where('slug', CapabilityEnum::UseBackoffice)->isNotEmpty();;
     }
 
     /**

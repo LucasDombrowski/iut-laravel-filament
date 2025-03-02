@@ -21,6 +21,7 @@ class ProductsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('slug')
+                    ->unique(ignoreRecord: true)
                     ->required(),
                 Forms\Components\Textarea::make('description')
                     ->required()

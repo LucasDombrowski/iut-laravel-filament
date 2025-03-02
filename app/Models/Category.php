@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,6 +33,13 @@ class Category extends Model
     public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function thumbnail() : Attribute{
+        return new Attribute(
+            fn($value) => str_starts_with($value, 'http') ? $value : asset('storage/'.$value),
+            fn($value) => $value
+        );
     }
 
     /**

@@ -55,6 +55,8 @@ class AddOrderController extends Controller
                 "quantity" => $variant->pivot->quantity,
                 "unit_price" => $variant->price
             ]);
+            $variant->stock -= $variant->pivot->quantity;
+            $variant->save();
         }
 
         if($cart->discount && $cart->discount->min_price <= $order->total_price && $cart->discount->start_at <= now() && $cart->discount->end_at >= now()){
