@@ -92,7 +92,7 @@ const handleSubmit = () => {
 
 <template>
   <div class="fixed top-0 left-0 w-full h-full inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-md opacity-0 animate-fadeIn">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md opacity-0 animate-fadeIn hover:shadow-2xl hover:scale-105 transition-all duration-300">
       <div class="p-6">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-xl font-bold text-gray-800">
@@ -161,8 +161,14 @@ const handleSubmit = () => {
           </div>
 
           <div class="flex justify-end space-x-3">
-            <button type="button" @click="emit('cancel')" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">Annuler</button>
-            <button type="submit" :disabled="!isFormValid" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed">
+            <button type="button" @click="emit('cancel')" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-all">
+              Annuler
+            </button>
+            <button 
+              type="submit" 
+              :disabled="!isFormValid" 
+              class="px-4 py-2 text-white bg-gradient-to-r from-indigo-600 to-blue-500 rounded-md hover:scale-105 hover:shadow-lg disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300"
+            >
               {{ editingAddress ? 'Modifier' : 'Ajouter' }}
             </button>
           </div>

@@ -45,7 +45,7 @@ const itemCount = computed(() => {
 </script>
 
 <template>
-  <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-lg hover:scale-105 transition-transform duration-200">
+  <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 hover:shadow-xl transition-all duration-300">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
       <!-- Informations commande -->
       <div>
@@ -61,12 +61,13 @@ const itemCount = computed(() => {
       
       <!-- Total & Bouton -->
       <div class="mt-2 sm:mt-0 flex flex-col sm:items-end">
-        <p class="font-bold text-lg text-gray-800 hover:text-indigo-600 transition-colors">
+        <p class="font-bold text-lg bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text">
           {{ formattedTotal }}
         </p>
         <button
           @click="emit('view-details', order)"
-          class="mt-2 px-4 py-1 text-sm text-indigo-600 border border-indigo-600 rounded-md hover:bg-indigo-100 transition-all focus:ring-2 focus:ring-indigo-500"
+          class="mt-2 px-4 py-2 text-sm text-white bg-gradient-to-r from-indigo-600 to-blue-500 rounded-md 
+          hover:scale-105 hover:shadow-lg transition-all duration-300 focus:ring-2 focus:ring-indigo-500"
         >
           Voir les détails
         </button>

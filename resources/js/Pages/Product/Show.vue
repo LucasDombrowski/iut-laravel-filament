@@ -87,10 +87,10 @@ const addToCart = () => {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto opacity-0 animate-fadeIn">
+  <div class="max-w-7xl mx-auto py-12">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Galerie Produit -->
-      <div class="product-gallery transition-all duration-300 transform hover:scale-105">
+      <div class="product-gallery transition-all duration-300 transform hover:-translate-y-0.5">
         <ProductGallery 
           :images="(product.variants.find(({ color_id }) => color_id === selectedColorId)?.images || []).map(img => img.url)" 
         />
@@ -98,7 +98,7 @@ const addToCart = () => {
 
       <!-- Détails Produit -->
       <div class="product-details space-y-6 transition-all duration-300 ease-in-out">
-        <h1 class="product-title text-3xl font-bold text-gray-900">{{ product.name }}</h1>
+        <h1 class="product-title text-3xl font-bold text-indigo-800">{{ product.name }}</h1>
         <p class="product-description text-gray-600">{{ product.description }}</p>
 
         <div class="product-price text-2xl font-semibold text-gray-900">
@@ -138,9 +138,9 @@ const addToCart = () => {
         <button 
           @click="addToCart"
           :disabled="!selectedSizeId"
-          class="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-medium hover:bg-indigo-700 
-            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 
-            disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
+          class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 px-6 rounded-md font-medium hover:from-indigo-700 hover:to-blue-600 
+            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-md hover:shadow-lg
+            disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform"
         >
           {{ selectedSizeId ? 'Ajouter au panier' : 'Veuillez sélectionner une taille' }}
         </button>
@@ -148,25 +148,8 @@ const addToCart = () => {
     </div>
 
     <!-- Catégories Produit -->
-    <div class="product-categories mt-12 transition-all duration-300 ease-in-out">
+    <div class="product-categories mt-12 transition-all duration-300 ease-in-out hover:-translate-y-0.5">
       <ProductCategories :categories="product.categories" />
     </div>
   </div>
 </template>
-
-<style scoped>
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-</style>

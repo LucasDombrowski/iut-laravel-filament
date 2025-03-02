@@ -38,10 +38,11 @@ class VariantsRelationManager extends RelationManager
                     ->label("Quantity"),
                 Tables\Columns\TextColumn::make('pivot.unit_price')
                     ->label("Unit Price")
-                    ->formatStateUsing(fn($state, $record) => $state / 100 . " €"),
+                    ->money("EUR"),
                 Tables\Columns\TextColumn::make('total_price')
                     ->label("Total Price")
-                    ->getStateUsing(fn($record) => ($record->pivot->unit_price * $record->pivot->quantity) / 100 . " €"),
+                    ->getStateUsing(fn($record) => ($record->pivot->unit_price * $record->pivot->quantity))
+                    ->money("EUR"),
             ])
             ->filters([
                 //

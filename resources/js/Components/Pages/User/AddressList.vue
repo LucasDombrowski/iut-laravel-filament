@@ -34,10 +34,13 @@ watch(editingAddress, (address) => {
 <template>
     <div class="w-full opacity-0 animate-fadeIn">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">Mes adresses</h2>
+            <h2 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text">
+                Mes adresses
+            </h2>
             <button
                 @click="handleAddAddressClick"
-                class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all focus:ring-2 focus:ring-indigo-500"
+                class="px-4 py-2 rounded-lg text-white font-medium shadow-md transition-all duration-300 
+                bg-gradient-to-r from-indigo-600 to-blue-500 hover:from-indigo-700 hover:to-blue-600 focus:ring-2 focus:ring-indigo-500"
             >
                 Ajouter une adresse
             </button>
@@ -54,6 +57,7 @@ watch(editingAddress, (address) => {
                 :address="address" 
                 @edit="handleEditAddress" 
                 @delete="handleDeleteAddress" 
+                class="shadow-md hover:shadow-lg transition-all duration-300 rounded-lg"
             />
         </div>
     </div>

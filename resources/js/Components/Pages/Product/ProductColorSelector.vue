@@ -17,8 +17,9 @@ const emit = defineEmits<{
       v-for="color in colors" 
       :key="color.id"
       @click="emit('select', color.id)"
-      class="relative w-10 h-10 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 transform hover:scale-105 focus:outline-none"
-      :class="{ 'ring-2 ring-offset-2 ring-indigo-500': selectedColorId === color.id }"
+      class="relative w-10 h-10 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 transform hover:scale-105 focus:ring-4 focus:ring-indigo-300"
+      :class="{ 'ring-2 ring-offset-2 ring-indigo-500 shadow-md': selectedColorId === color.id }"
+      :title="color.label"
     >
       <span 
         class="absolute inset-0 rounded-full transition-all duration-300"

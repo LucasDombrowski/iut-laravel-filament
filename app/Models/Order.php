@@ -39,7 +39,7 @@ class Order extends Model
 
     public function variants()
     {
-        return $this->belongsToMany(Variant::class)->withPivot('quantity',"unit_price");
+        return $this->belongsToMany(Variant::class)->withPivot('quantity',"unit_price")->using(OrderVariant::class);
     }
 
     public function getTotalPriceAttribute()
@@ -57,6 +57,6 @@ class Order extends Model
                 }
             }
         }
-        return $total/100;
+        return $total;
     }
 }

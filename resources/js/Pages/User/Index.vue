@@ -14,6 +14,7 @@ import AddressForm from '@/Components/Pages/User/AddressForm.vue';
 import { router } from '@inertiajs/vue3';
 import OrderDetails from '@/Components/Pages/User/OrderDetails.vue';
 import { getStatusColor } from '@/libs/utils/order';
+import { add } from 'date-fns';
 
 const props = defineProps<{
   addresses: Address[];
@@ -72,23 +73,25 @@ const closeOrderDetails = () => {
 </script>
 
 <template>
-  <div class="max-w-6xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-6">Mon compte</h1>
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-indigo-800 bg-clip-text mb-6 border-b-4 border-indigo-500 pb-2 w-fit">
+      Mon compte
+    </h1>
 
     <!-- Tabs -->
     <div class="mb-6 border-b border-gray-200">
       <div class="flex space-x-6 py-5">
         <button
           @click="handleTabClick(0)"
-          class="py-2 px-4 border-b-2 font-medium text-sm transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-md"
-          :class="activeTab === 0 ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="py-2 px-4 font-medium text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg"
+          :class="activeTab === 0 ? 'bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'"
         >
           Mes adresses
         </button>
         <button
           @click="handleTabClick(1)"
-          class="py-2 px-4 border-b-2 font-medium text-sm transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-md"
-          :class="activeTab === 1 ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="py-2 px-4 font-medium text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg"
+          :class="activeTab === 1 ? 'bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'"
         >
           Mes commandes
         </button>
@@ -105,7 +108,7 @@ const closeOrderDetails = () => {
       @slide-change="handleSlideChange"
       class="w-full"
     >
-      <SwiperSlide class="bg-gray-50 p-6 rounded-lg shadow-md">
+      <SwiperSlide class="bg-white p-6 rounded-lg transition-all duration-300">
         <AddressList
           :addresses="addresses"
           :countries="countries"
@@ -114,7 +117,7 @@ const closeOrderDetails = () => {
           @trigger-edit-address-form="handleTriggerEditAddressForm"
         />
       </SwiperSlide>
-      <SwiperSlide class="bg-gray-50 p-6 rounded-lg shadow-md">
+      <SwiperSlide class="bg-white p-6 rounded-lg transition-all duration-300">
         <OrderList :orders="orders" @view-details="(order) => (currentOrder = order)" />
       </SwiperSlide>
     </Swiper>
@@ -126,7 +129,10 @@ const closeOrderDetails = () => {
     :countries="countries" 
     :editing-address="editingAddress"
     @save="handleAddressSave" 
-    @cancel="showAddressForm = false" 
+    @cancel="()=>{
+      showAddressForm = false;
+      editingAddress = null;
+    }" 
   />
 
   <!-- Order Details -->

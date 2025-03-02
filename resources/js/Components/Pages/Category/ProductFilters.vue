@@ -62,7 +62,7 @@ watch(() => props.filters, (newFilters) => {
 </script>
 
 <template>
-  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+  <div class="bg-white rounded-lg shadow-md p-4 md:p-6 mb-8 animate-opacity-100">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <!-- Search bar -->
       <div class="relative flex-grow">
@@ -84,11 +84,11 @@ watch(() => props.filters, (newFilters) => {
       <!-- Filter toggle for mobile -->
       <button 
         @click="toggleFilters"
-        class="md:hidden px-4 py-2 bg-gray-100 rounded-lg flex items-center gap-2 hover:bg-gray-200 transition-all duration-300"
+        class="md:hidden px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-lg flex items-center gap-2 hover:from-indigo-700 hover:to-blue-600 transition-all duration-300 shadow-md hover:shadow-lg"
       >
         ☰ Filtres
         <span v-if="selectedColors.length > 0 || selectedSizes.length > 0" 
-          class="bg-indigo-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+          class="bg-white text-indigo-600 rounded-full w-5 h-5 flex items-center justify-center text-xs">
           {{ selectedColors.length + selectedSizes.length }}
         </span>
       </button>
@@ -105,7 +105,7 @@ watch(() => props.filters, (newFilters) => {
 
     <!-- Filters section -->
     <div 
-      class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
       :class="{ 'hidden md:grid': !isFiltersOpen }"
     >
       <!-- Colors filter -->

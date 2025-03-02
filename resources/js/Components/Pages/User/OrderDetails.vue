@@ -24,13 +24,6 @@ const total = computed(() => {
   return props.order.variants.reduce((acc, item) => acc + item.unit_price * item.quantity, 0);
 });
 
-const formattedTotal = computed(() => {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(total.value);
-});
-
 const formattedPrice = (price: number) => {
   return new Intl.NumberFormat('fr-FR', {
     style: 'currency',
@@ -40,36 +33,17 @@ const formattedPrice = (price: number) => {
 
 const discountAmount = computed(() => {
   if (!props.order.discount) return 0;
-  
-  if (props.order.discount.type === 'percentage') {
-    return (total.value * props.order.discount.value) / 100;
-  } else {
-    return props.order.discount.value;
-  }
+  return props.order.discount.type === 'percentage'
+    ? (total.value * props.order.discount.value) / 100
+    : props.order.discount.value;
 });
 
-const formattedDiscount = computed(() => {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(discountAmount.value);
-});
-
-const discountedTotal = computed(() => {  
-  return total.value - discountAmount.value;
-});
-
-const formattedDiscountedTotal = computed(() => {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(discountedTotal.value);
-});
+const discountedTotal = computed(() => total.value - discountAmount.value);
 </script>
 
 <template>
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fadeIn">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[85vh] overflow-auto">
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[85vh] overflow-auto opacity-0 animate-fadeIn hover:shadow-2xl hover:scale-105 transition-all duration-300">
       <div class="p-6">
         <div class="flex justify-between items-center mb-6">
           <div>
@@ -83,11 +57,9 @@ const formattedDiscountedTotal = computed(() => {
           </div>
           <button 
             @click="emit('close')" 
-            class="p-2 text-gray-500 hover:bg-gray-200 rounded-full transition-all"
+            class="p-2 text-gray-500 hover:bg-gray-200 rounded-full transition-all hover:scale-110"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            ✖
           </button>
         </div>
 
@@ -109,13 +81,13 @@ const formattedDiscountedTotal = computed(() => {
             <div
               v-for="(item, index) in order.variants"
               :key="index"
-              class="p-3 flex items-center hover:bg-gray-100 transition-colors"
+              class="p-3 flex items-center hover:bg-gray-100 transition-all duration-300"
             >
               <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                 <img
                   :src="item.variant.thumbnail"
                   :alt="item.variant.product.name"
-                  class="h-full w-full object-cover object-center"
+                  class="h-full w-full object-cover"
                 />
               </div>
               <div class="ml-4 flex-1">
@@ -133,18 +105,20 @@ const formattedDiscountedTotal = computed(() => {
         </div>
 
         <!-- Récapitulatif des prix -->
-        <div class="border-t pt-4">
+        <div class="border-t border-gray-200 pt-4">
           <div class="flex justify-between mb-2">
             <span class="text-gray-600">Sous-total</span>
-            <span class="font-medium text-gray-900">{{ formattedTotal }}</span>
+            <span class="font-medium text-gray-900">{{ formattedPrice(total) }}</span>
           </div>
           <div v-if="order.discount" class="flex justify-between mb-2 text-green-600 font-medium">
             <span>Réduction ({{ order.discount.code }})</span>
-            <span>-{{ formattedDiscount }}</span>
+            <span>-{{ formattedPrice(discountAmount) }}</span>
           </div>
           <div class="flex justify-between font-bold text-lg mt-2">
             <span class="text-gray-900">Total</span>
-            <span class="text-indigo-700">{{ formattedDiscountedTotal }}</span>
+            <span class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-3 py-1 rounded-md shadow-md">
+              {{ formattedPrice(discountedTotal) }}
+            </span>
           </div>
         </div>
       </div>

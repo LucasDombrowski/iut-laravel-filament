@@ -17,7 +17,7 @@ const mainSwiper = ref(null);
 <template>
   <div class="product-gallery-container">
     <!-- Main Gallery -->
-    <div class="main-gallery mb-4 overflow-hidden rounded-lg bg-gray-100 shadow-md">
+    <div class="main-gallery mb-4 overflow-hidden rounded-lg bg-gradient-to-b from-indigo-50 to-transparent shadow-lg transition-all duration-300 hover:shadow-xl">
       <Swiper
         :modules="[Navigation, Thumbs]"
         :thumbs="{ swiper: thumbsSwiper }"
@@ -52,7 +52,7 @@ const mainSwiper = ref(null);
         @swiper="thumbsSwiper = $event"
         class="h-24"
       >
-        <SwiperSlide v-for="(image, index) in images" :key="index" class="cursor-pointer rounded-md overflow-hidden transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-indigo-500">
+        <SwiperSlide v-for="(image, index) in images" :key="index" class="cursor-pointer rounded-md transition-all duration-300 focus:ring-2 focus:ring-indigo-500">
           <img :src="image" :alt="`Thumbnail ${index + 1}`" class="h-full w-full object-cover rounded-md shadow-sm border border-gray-200 hover:border-indigo-500" />
         </SwiperSlide>
       </Swiper>
@@ -87,6 +87,5 @@ const mainSwiper = ref(null);
 
 :deep(.swiper-slide:hover) {
   opacity: 1;
-  transform: scale(1.05);
 }
 </style>

@@ -46,7 +46,7 @@ const submitNewAddress = () => {
     id: -1,
     user_id: 1, // ID temporaire
   };
-  
+
   emit('update:address', tempAddress);
   emit('save-address', saveNewAddress.value);
 };
@@ -85,34 +85,36 @@ const selectAddress = (result: any) => {
 </script>
 
 <template>
-  <div class="bg-white rounded-lg shadow-md p-6">
-    <h2 class="text-xl font-semibold text-gray-800 mb-4">Adresse de livraison</h2>
-    
+  <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 transition-all duration-300 hover:shadow-xl">
+    <h2 class="text-xl font-semibold text-gray-800 bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text mb-4">
+      Adresse de livraison
+    </h2>
+
     <div v-if="savedAddresses.length > 0" class="mb-6">
       <div class="flex flex-wrap gap-2 mb-4">
-        <button 
-          v-for="address in savedAddresses" 
+        <button
+          v-for="address in savedAddresses"
           :key="address.id"
           @click="selectSavedAddress(address.id)"
-          class="px-4 py-2 rounded-md border transition-all duration-300"
+          class="px-4 py-2 rounded-md border transition-all duration-300 hover:shadow-md"
           :class="[
-            selectedSavedAddressId === address.id 
-              ? 'ring-2 ring-indigo-500 border-indigo-500 bg-indigo-50 text-indigo-700' 
-              : 'border-gray-300 hover:border-gray-400 hover:ring-1 hover:ring-gray-300'
+            selectedSavedAddressId === address.id
+              ? 'ring-2 ring-indigo-500 border-indigo-500 bg-indigo-50 text-indigo-700'
+              : 'border-gray-300 hover:border-indigo-400 hover:ring-1 hover:ring-indigo-300'
           ]"
         >
           {{ address.number }} {{ address.street }}, {{ address.city }}
         </button>
       </div>
-      
-      <div v-if="selectedSavedAddress" class="bg-gray-50 p-4 rounded-md">
+
+      <div v-if="selectedSavedAddress" class="bg-gray-50 p-4 rounded-lg shadow-inner">
         <p class="font-medium">{{ selectedSavedAddress.number }} {{ selectedSavedAddress.street }}</p>
         <p v-if="selectedSavedAddress.complement" class="text-gray-600">{{ selectedSavedAddress.complement }}</p>
         <p>{{ selectedSavedAddress.zip_code }} {{ selectedSavedAddress.city }}</p>
         <p>{{ countries[selectedSavedAddress.country_code] ?? 'Inconnu' }}</p>
       </div>
     </div>
-    
+
     <transition name="fade">
       <form v-if="isNewAddressMode" @submit.prevent="submitNewAddress" class="space-y-4">
         <div class="relative">
@@ -124,7 +126,7 @@ const selectAddress = (result: any) => {
             @keydown.enter.prevent="handleSearch"
             type="text"
             placeholder="Commencez à taper votre adresse..."
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
           />
           <div v-if="isSearching" class="absolute right-3 top-9">
             <svg class="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -137,7 +139,7 @@ const selectAddress = (result: any) => {
               v-for="(result, index) in searchResults"
               :key="index"
               @click="selectAddress(result)"
-              class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              class="px-4 py-2 hover:bg-indigo-100 cursor-pointer transition-all"
             >
               {{ result.label }}
             </div>
@@ -145,18 +147,18 @@ const selectAddress = (result: any) => {
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-          <input v-model="newAddress.number" placeholder="Numéro" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500" required />
-          <input v-model="newAddress.street" placeholder="Rue" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500" required />
-          <input v-model="newAddress.city" placeholder="Ville" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500" required />
-          <input v-model="newAddress.zip_code" placeholder="Code postal" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500" required />
+          <input v-model="newAddress.number" placeholder="Numéro" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200" required />
+          <input v-model="newAddress.street" placeholder="Rue" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200" required />
+          <input v-model="newAddress.city" placeholder="Ville" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200" required />
+          <input v-model="newAddress.zip_code" placeholder="Code postal" class="border p-2 rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200" required />
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 flex items-center">
           <input type="checkbox" id="save_address" v-model="saveNewAddress" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
           <label for="save_address" class="ml-2 text-sm text-gray-700">Enregistrer cette adresse</label>
         </div>
 
-        <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-all">
+        <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-2 px-4 rounded-md hover:shadow-md hover:from-indigo-700 hover:to-blue-600 transition-all duration-300">
           Utiliser cette adresse
         </button>
       </form>
@@ -164,9 +166,9 @@ const selectAddress = (result: any) => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease-in-out;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;

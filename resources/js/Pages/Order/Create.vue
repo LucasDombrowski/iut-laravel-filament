@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import CartSummary from '@/Components/Pages/Order/CartSummary.vue';
 import AddressForm from '@/Components/Pages/Order/AddressForm.vue';
 import PaymentForm from '@/Components/Pages/Order/PaymentForm.vue';
@@ -7,7 +7,6 @@ import CheckoutStepper from '@/Components/Pages/Order/CheckoutStepper.vue';
 import { Cart } from '@/libs/types/order';
 import { Address } from '@/libs/types/address';
 import { router } from "@inertiajs/vue3";
-import gsap from 'gsap';
 
 const props = defineProps<{
   cart: Cart;
@@ -29,22 +28,21 @@ const goToStep = (step: number) => {
 };
 
 const nextStep = () => {
-  if (currentStep.value === 0 && props.cart.items.length === 0) return; // Vérifier si le panier est vide
-  if (currentStep.value === 1 && !selectedAddress.value) return; // Vérifier si une adresse a été sélectionnée
-  
-  gsap.fromTo(".step-container", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 });
+  if (currentStep.value === 0 && props.cart.items.length === 0) return;
+  if (currentStep.value === 1 && !selectedAddress.value) return;
 
   if (currentStep.value < steps.length - 1) {
     currentStep.value++;
   } else {
-    processOrder();
+    if (!isProcessing.value) {
+      processOrder();
+    }
   }
 };
 
 const previousStep = () => {
   if (currentStep.value > 0) {
     currentStep.value--;
-    gsap.fromTo(".step-container", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 });
   }
 };
 
@@ -57,14 +55,12 @@ const handleSaveAddress = (value: boolean) => {
   saveAddress.value = value;
 };
 
-const handlePaymentComplete = async (paymentInfo: any) => {
+const handlePaymentComplete = async () => {
   isProcessing.value = true;
   paymentError.value = null;
 
   try {
-    // Simuler un délai de paiement
     await new Promise(resolve => setTimeout(resolve, 1500));
-
     processOrder();
   } catch (error) {
     paymentError.value = "Le paiement a échoué. Veuillez réessayer.";
@@ -74,15 +70,13 @@ const handlePaymentComplete = async (paymentInfo: any) => {
 
 const processOrder = () => {
   if (!selectedAddress.value) return;
-  
+
   const addressData: any = { ...selectedAddress.value };
   if (saveAddress.value) {
     addressData.save = true;
   }
 
-  const data = { address: addressData };
-
-  router.post(route('checkout.add'), data, {
+  router.post(route('checkout.add'), { address: addressData }, {
     onStart: () => isProcessing.value = true,
     onFinish: () => isProcessing.value = false,
     onError: (error) => paymentError.value = error.message || "Une erreur est survenue.",
@@ -106,57 +100,52 @@ const canContinue = computed(() => {
       
       <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
-          <div class="step-container">
-            <div v-if="currentStep === 0">
-              <CartSummary :cart="cart" />
-              <div class="mt-6 flex justify-end">
-                <button 
-                  @click="nextStep"
-                  :disabled="!canContinue"
-                  class="bg-indigo-600 text-white py-2 px-6 rounded-md hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                  Continuer
-                </button>
+          <transition name="fade-slide" mode="out-in">
+            <div :key="currentStep">
+              <div v-if="currentStep === 0">
+                <CartSummary :cart="cart" />
+                <div class="mt-6 flex justify-end">
+                  <button 
+                    @click="nextStep"
+                    :disabled="!canContinue"
+                    class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 px-6 rounded-md hover:from-indigo-700 hover:to-blue-600 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  >
+                    Continuer
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div v-else-if="currentStep === 1">
-              <AddressForm 
-                :saved-addresses="savedAddresses" 
-                @update:address="handleAddressSelected"
-                @save-address="handleSaveAddress"
-                :countries="countries"
-              />
-              <div class="mt-6 flex justify-between">
-                <button 
-                  @click="previousStep" 
-                  class="border border-gray-300 bg-white text-gray-700 py-2 px-6 rounded-md hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Retour
-                </button>
+              <div v-else-if="currentStep === 1">
+                <AddressForm 
+                  :saved-addresses="savedAddresses" 
+                  @update:address="handleAddressSelected"
+                  @save-address="handleSaveAddress"
+                  :countries="countries"
+                />
+                <div class="mt-6 flex justify-between">
+                  <button 
+                    @click="previousStep" 
+                    class="border border-gray-300 bg-white text-gray-700 py-3 px-6 rounded-md hover:bg-gray-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Retour
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div v-else-if="currentStep === 2">
-              <PaymentForm @payment-complete="handlePaymentComplete" />
-              <div v-if="paymentError" class="mt-4 text-red-600 text-sm">{{ paymentError }}</div>
-              <div class="mt-6 flex justify-between">
-                <button 
-                  @click="previousStep" 
-                  class="border border-gray-300 bg-white text-gray-700 py-2 px-6 rounded-md hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Retour
-                </button>
-                <button 
-                  @click="handlePaymentComplete"
-                  :disabled="isProcessing"
-                  class="bg-green-600 text-white py-2 px-6 rounded-md hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                  {{ isProcessing ? 'Traitement...' : 'Confirmer le paiement' }}
-                </button>
+              <div v-else-if="currentStep === 2">
+                <PaymentForm @payment-complete="handlePaymentComplete" />
+                <div v-if="paymentError" class="mt-4 text-red-600 text-sm">{{ paymentError }}</div>
+                <div class="mt-6 flex justify-between">
+                  <button 
+                    @click="previousStep" 
+                    class="border border-gray-300 bg-white text-gray-700 py-3 px-6 rounded-md hover:bg-gray-50 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    Retour
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </transition>
         </div>
 
         <div class="lg:col-span-1">
@@ -175,3 +164,15 @@ const canContinue = computed(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Transition entre les étapes */
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-slide-enter-from, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+</style>

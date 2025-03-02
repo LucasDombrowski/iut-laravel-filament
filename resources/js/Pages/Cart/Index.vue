@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { gsap } from 'gsap';
 import CartItem from '@/Components/Pages/Cart/CartItem.vue';
 import PromoCodeInput from '@/Components/Pages/Cart/PromoCodeInput.vue';
@@ -17,7 +17,9 @@ const props = defineProps<{
 
 const cartItems = ref<CartItemType[]>(props.cartItems);
 
-const appliedPromoCode = ref<Discount | null>(props.cartDiscount);
+const appliedPromoCode = computed(()=>{
+  return props.cartDiscount;
+});
 const pageTitle = ref<HTMLElement | null>(null);
 
 const updateItemQuantity = (itemId: number, newQuantity: number) => {

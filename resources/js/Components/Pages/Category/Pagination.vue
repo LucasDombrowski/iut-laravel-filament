@@ -45,15 +45,15 @@ const pageNumbers = computed(() => {
 
 <template>
   <div v-if="meta.lastPage > 1" class="flex justify-center mt-8">
-    <nav class="flex items-center space-x-1">
+    <nav class="flex items-center space-x-2">
       <!-- Bouton Précédent -->
       <button 
         @click="changePage(meta.currentPage - 1)"
         :disabled="meta.currentPage === 1"
-        class="px-3 py-2 rounded-md transition-all duration-300 transform"
+        class="px-4 py-3 rounded-md transition-all duration-300 transform"
         :class="meta.currentPage === 1 
           ? 'text-gray-400 cursor-not-allowed' 
-          : 'text-gray-700 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 hover:scale-105'"
+          : 'text-gray-700 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 hover:-translate-y-0.5'"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -62,14 +62,14 @@ const pageNumbers = computed(() => {
       
       <!-- Numéros de page -->
       <template v-for="(page, index) in pageNumbers" :key="index">
-        <span v-if="page === '...'" class="px-3 py-2 text-gray-500">...</span>
+        <span v-if="page === '...'" class="px-4 py-3 text-gray-500">...</span>
         <button 
           v-else
           @click="changePage(Number(page))"
-          class="px-3 py-2 rounded-md transition-all duration-300"
+          class="px-4 py-3 rounded-md transition-all duration-300"
           :class="meta.currentPage === page 
-            ? 'bg-indigo-600 text-white font-bold shadow-md' 
-            : 'text-gray-700 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 hover:scale-105'"
+            ? 'bg-gradient-to-r from-indigo-600 to-blue-500 text-white font-bold shadow-md' 
+            : 'text-gray-700 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 hover:-translate-y-0.5'"
         >
           {{ page }}
         </button>
@@ -79,10 +79,10 @@ const pageNumbers = computed(() => {
       <button 
         @click="changePage(meta.currentPage + 1)"
         :disabled="meta.currentPage === meta.lastPage"
-        class="px-3 py-2 rounded-md transition-all duration-300 transform"
+        class="px-4 py-3 rounded-md transition-all duration-300 transform"
         :class="meta.currentPage === meta.lastPage
           ? 'text-gray-400 cursor-not-allowed' 
-          : 'text-gray-700 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 hover:scale-105'"
+          : 'text-gray-700 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 hover:-translate-y-0.5'"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

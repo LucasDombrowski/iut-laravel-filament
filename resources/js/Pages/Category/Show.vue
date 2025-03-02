@@ -57,7 +57,7 @@ watch(filters, (newFilters) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 py-8 lg:py-12 px-4 sm:px-6 lg:px-8 opacity-0 animate-fadeIn">
+  <div class="min-h-screen bg-gray-50 py-12 lg:py-16 px-4 sm:px-6 lg:px-8 animate-opacity-100">
     <div class="max-w-7xl mx-auto">
       <!-- Loading state -->
       <div v-if="isLoading" class="flex flex-col items-center justify-center py-20">
@@ -69,7 +69,7 @@ watch(filters, (newFilters) => {
       <div v-else-if="!category" class="text-center py-20">
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Catégorie non trouvée</h1>
         <p class="text-gray-600 mb-8">La catégorie que vous recherchez n'existe pas.</p>
-        <a href="/" class="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-300">
+        <a href="/" class="inline-block px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-lg hover:from-indigo-700 hover:to-blue-600 transition-all duration-300">
           Retour à l'accueil
         </a>
       </div>
@@ -94,8 +94,10 @@ watch(filters, (newFilters) => {
             Page {{ meta.currentPage }} sur {{ meta.lastPage }}
           </div>
         </div>
-        
-        <ProductGrid :products="products" />
+
+        <div class="border-t border-gray-200 mt-6"></div>
+
+        <ProductGrid :products="products" class="mt-6 p-2 transition-transform duration-300" />
         
         <Pagination 
           :meta="meta"
@@ -105,20 +107,3 @@ watch(filters, (newFilters) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.8s ease-out forwards;
-}
-</style>

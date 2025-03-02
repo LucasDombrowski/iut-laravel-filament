@@ -46,7 +46,7 @@ class Variant extends Model
     }
 
     public function orders() : BelongsToMany{
-        return $this->belongsToMany(Order::class)->withPivot('quantity',"unit_price");
+        return $this->belongsToMany(Order::class)->withPivot('quantity',"unit_price")->using(OrderVariant::class);
     }
 
     public function carts() : BelongsToMany{

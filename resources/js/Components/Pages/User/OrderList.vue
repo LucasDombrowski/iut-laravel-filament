@@ -17,12 +17,17 @@ const viewOrderDetails = (order: Order) => {
 </script>
 
 <template>
-  <div class="w-full animate-fadeIn">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Mes commandes</h2>
+  <div class="w-full opacity-0 animate-fadeIn">
+    <h2 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text mb-6">
+      Mes commandes
+    </h2>
 
     <div v-if="orders.length === 0" class="text-center py-10">
       <p class="text-gray-600 text-lg">Vous n'avez pas encore passé de commande.</p>
-      <button class="mt-4 px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-all">
+      <button 
+        class="mt-4 px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-md hover:scale-105 hover:shadow-lg 
+        transition-all duration-300 focus:ring-2 focus:ring-indigo-500"
+      >
         Découvrir nos produits
       </button>
     </div>
@@ -34,7 +39,7 @@ const viewOrderDetails = (order: Order) => {
         :order="order"
         :status-color="getStatusColor(order.status)"
         @view-details="viewOrderDetails"
-        class="hover:scale-[1.02] transition-transform duration-200"
+        class="hover:shadow-lg transition-all duration-300"
       />
     </div>
   </div>

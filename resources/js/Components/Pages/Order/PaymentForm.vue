@@ -1,21 +1,16 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
-// Événements émis vers le parent
 const emit = defineEmits<{
   (e: 'payment-complete', paymentInfo: any): void;
 }>();
 
-// Champs du formulaire
 const cardNumber = ref('');
 const cardName = ref('');
 const expiryDate = ref('');
 const cvv = ref('');
-
-// Erreurs
 const errors = ref<{ [key: string]: string }>({});
 
-// Détection du type de carte bancaire
 const cardType = computed(() => {
   if (/^4/.test(cardNumber.value)) return 'visa';
   if (/^5[1-5]/.test(cardNumber.value)) return 'mastercard';
@@ -23,23 +18,14 @@ const cardType = computed(() => {
   return 'default';
 });
 
-// Formatage du numéro de carte
 const formatCardNumber = (value: string) => {
-  return value
-    .replace(/\D/g, '') // Supprime tout sauf les chiffres
-    .replace(/(.{4})/g, '$1 ') // Ajoute un espace tous les 4 chiffres
-    .trim();
+  return value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
 };
 
-// Formatage de la date d'expiration (MM/YY)
 const formatExpiryDate = (value: string) => {
-  return value
-    .replace(/\D/g, '') // Supprime tout sauf les chiffres
-    .replace(/(\d{2})(\d{0,2})/, '$1/$2') // Ajoute le slash après MM
-    .substring(0, 5);
+  return value.replace(/\D/g, '').replace(/(\d{2})(\d{0,2})/, '$1/$2').substring(0, 5);
 };
 
-// Validation de la carte avec l'algorithme de Luhn
 const isValidCardNumber = (number: string) => {
   const digits = number.replace(/\D/g, '').split('').reverse();
   const checksum = digits.reduce((sum, digit, index) => {
@@ -51,30 +37,17 @@ const isValidCardNumber = (number: string) => {
   return checksum % 10 === 0;
 };
 
-// Validation du formulaire
 const validateForm = () => {
   errors.value = {};
 
-  if (!isValidCardNumber(cardNumber.value)) {
-    errors.value.cardNumber = 'Numéro de carte invalide';
-  }
-  
-  if (!cardName.value.trim()) {
-    errors.value.cardName = 'Nom requis';
-  }
-  
-  if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate.value)) {
-    errors.value.expiryDate = 'Date invalide (MM/YY)';
-  }
-  
-  if (!/^\d{3,4}$/.test(cvv.value)) {
-    errors.value.cvv = 'CVV invalide';
-  }
+  if (!isValidCardNumber(cardNumber.value)) errors.value.cardNumber = 'Numéro de carte invalide';
+  if (!cardName.value.trim()) errors.value.cardName = 'Nom requis';
+  if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate.value)) errors.value.expiryDate = 'Date invalide (MM/YY)';
+  if (!/^\d{3,4}$/.test(cvv.value)) errors.value.cvv = 'CVV invalide';
 
   return Object.keys(errors.value).length === 0;
 };
 
-// Soumission du paiement
 const submitPayment = () => {
   if (!validateForm()) return;
 
@@ -88,10 +61,12 @@ const submitPayment = () => {
 </script>
 
 <template>
-  <div class="bg-white rounded-lg shadow-md p-6">
-    <h2 class="text-xl font-semibold text-gray-800 mb-4">Informations de paiement</h2>
+  <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 transition-all duration-300 hover:shadow-xl">
+    <h2 class="text-xl font-semibold text-gray-800 bg-gradient-to-r from-indigo-600 to-blue-500 text-transparent bg-clip-text mb-4">
+      Informations de paiement
+    </h2>
 
-    <form @submit.prevent="submitPayment" class="space-y-4">
+    <form @submit.prevent="submitPayment" class="space-y-5">
       <!-- Numéro de carte -->
       <div>
         <label for="card_number" class="block text-sm font-medium text-gray-700 mb-1">Numéro de carte</label>
@@ -103,9 +78,9 @@ const submitPayment = () => {
             @input="cardNumber = formatCardNumber(cardNumber)"
             placeholder="1234 5678 9012 3456"
             maxlength="19"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500"
+            class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
             :class="errors.cardNumber ? 'border-red-500' : 'border-gray-300'"
-          >
+          />
         </div>
         <p v-if="errors.cardNumber" class="text-red-500 text-sm mt-1">{{ errors.cardNumber }}</p>
       </div>
@@ -118,9 +93,9 @@ const submitPayment = () => {
           id="card_name"
           v-model="cardName"
           placeholder="John Doe"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500"
+          class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
           :class="errors.cardName ? 'border-red-500' : 'border-gray-300'"
-        >
+        />
         <p v-if="errors.cardName" class="text-red-500 text-sm mt-1">{{ errors.cardName }}</p>
       </div>
 
@@ -135,9 +110,9 @@ const submitPayment = () => {
             @input="expiryDate = formatExpiryDate(expiryDate)"
             placeholder="MM/YY"
             maxlength="5"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500"
+            class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
             :class="errors.expiryDate ? 'border-red-500' : 'border-gray-300'"
-          >
+          />
           <p v-if="errors.expiryDate" class="text-red-500 text-sm mt-1">{{ errors.expiryDate }}</p>
         </div>
 
@@ -149,9 +124,9 @@ const submitPayment = () => {
             v-model="cvv"
             placeholder="123"
             maxlength="4"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500"
+            class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
             :class="errors.cvv ? 'border-red-500' : 'border-gray-300'"
-          >
+          />
           <p v-if="errors.cvv" class="text-red-500 text-sm mt-1">{{ errors.cvv }}</p>
         </div>
       </div>
@@ -160,7 +135,7 @@ const submitPayment = () => {
       <div class="mt-6">
         <button
           type="submit"
-          class="w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500"
+          class="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 px-4 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300"
         >
           Payer
         </button>
